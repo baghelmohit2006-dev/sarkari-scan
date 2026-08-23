@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071b34">
+<link rel="manifest" href="manifest.json">
+<title>Sarkari Scan - Government Exam Practice</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#10233d}
+header{background:#071b34;color:#fff;padding:18px 15px;text-align:center}
+.logo{display:inline-flex;align-items:center;gap:10px;font-weight:800;font-size:28px}.glass{font-size:30px}
+.tag{font-size:13px;color:#ffd21c;margin-top:4px}
+main{max-width:900px;margin:auto;padding:16px}
+.hero{background:#fff;border-radius:18px;padding:20px;box-shadow:0 4px 16px #0001;margin-bottom:16px}
+h1{font-size:24px;margin:0 0 8px}.sub{color:#53657b}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.card{border:0;border-radius:15px;padding:18px;background:#fff;box-shadow:0 3px 12px #0001;text-align:left;font-size:16px;font-weight:700;color:#10233d}
+.card small{display:block;color:#6b7a8c;font-weight:400;margin-top:5px}
+button{cursor:pointer}
+#test{display:none}.q{background:#fff;border-radius:15px;padding:18px;margin:12px 0;box-shadow:0 3px 12px #0001}
+.opt{display:block;width:100%;text-align:left;padding:12px;margin:8px 0;border:1px solid #ccd6e2;border-radius:10px;background:#fff}
+.opt.selected{border-color:#0b63ce;background:#eaf3ff}
+.primary{background:#0b63ce;color:#fff;border:0;border-radius:10px;padding:13px 18px;font-weight:700}
+.back{background:#e8edf3;color:#10233d;border:0;border-radius:10px;padding:13px 18px;font-weight:700;margin-right:8px}
+.timer{float:right;background:#ffe9e9;color:#b00020;padding:7px 10px;border-radius:9px;font-weight:700}
+.result{background:#fff;border-radius:15px;padding:22px;text-align:center;box-shadow:0 3px 12px #0001}
+@media(min-width:650px){.grid{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<header>
+<div class="logo"><span>🏛️</span><span>SARKARI <b style="color:#e21b1b">SCAN</b></span><span class="glass">🔎</span></div>
+<div class="tag">EVERY UPDATE, SCANNED FOR YOU</div>
+</header>
+<main>
+<section id="home">
+<div class="hero">
+<h1>All Government Exam Practice</h1>
+<div class="sub">Practice Sets • Previous Year Papers • CBT Mock Tests</div>
+</div>
+<div class="grid">
+<button class="card" onclick="start('UP Exams')">🏛️ UP Exams<small>UPPSC, UPSSSC, Police & more</small></button>
+<button class="card" onclick="start('SSC')">📋 SSC<small>CGL, CHSL, MTS & more</small></button>
+<button class="card" onclick="start('Railway')">🚆 Railway<small>ALP, NTPC, Group D, Technician</small></button>
+<button class="card" onclick="start('UPSC')">🇮🇳 UPSC<small>Civil Services & other exams</small></button>
+<button class="card" onclick="start('Defence')">🪖 Army / Navy / Air Force<small>Defence practice</small></button>
+<button class="card" onclick="start('Banking')">🏦 Banking<small>IBPS, SBI & other exams</small></button>
+</div>
+</section>
+
+<section id="test">
+<div class="hero"><span class="timer" id="timer">10:00</span><h1 id="title">Practice Test</h1><div class="sub">Online CBT Practice</div></div>
+<div id="questions"></div>
+<button class="back" onclick="goHome()">← Home</button>
+<button class="primary" onclick="submitTest()">Submit Test</button>
+</section>
+</main>
+<script>
+const data=[
+["Which Article of the Indian Constitution empowers Parliament to regulate citizenship by law?",["Article 15","Article 11","Article 18","Article 6"],1],
+["The ancient treatise 'Ashtadhyayi' was authored by:",["Kalidasa","Chanakya","Patanjali","Panini"],3],
+["In which year was FIFA founded?",["1900","1920","1910","1904"],3],
+["Which country has Rome as its capital city?",["Greece","Portugal","Spain","Italy"],3],
+["Which mountain range is the Matterhorn located in?",["Pennine Alps","Rocky Mountains","Himalayas","Andes"],0],
+["What is the full form of FIEO in commerce?",["Federation of Indian Export Organisations","Foreign Investment and Export Organisations","Federation of Indian Economic Organisations","Federation of International Export Operations"],0]
+];
+let answers=[],seconds=600;
+function start(cat){document.getElementById("home").style.display="none";document.getElementById("test").style.display="block";document.getElementById("title").textContent=cat+" Practice Set";answers=Array(data.length).fill(null);render();seconds=600;tick()}
+function render(){document.getElementById("questions").innerHTML=data.map((q,i)=>`<div class="q"><b>Q${i+1}. ${q[0]}</b>${q[1].map((o,j)=>`<button class="opt ${answers[i]===j?'selected':''}" onclick="answers[${i}]=${j};render()">${String.fromCharCode(65+j)}. ${o}</button>`).join("")}</div>`).join("")}
+function submitTest(){let score=data.reduce((s,q,i)=>s+(answers[i]===q[2]?1:0),0);document.getElementById("questions").innerHTML=`<div class="result"><h2>Test Completed 🎉</h2><h1>${score} / ${data.length}</h1><p>Correct answers: ${score}<br>Wrong/Unattempted: ${data.length-score}</p></div>`}
+function goHome(){document.getElementById("test").style.display="none";document.getElementById("home").style.display="block"}
+let timerHandle;function tick(){clearInterval(timerHandle);timerHandle=setInterval(()=>{seconds--;let m=Math.floor(seconds/60),s=seconds%60;document.getElementById("timer").textContent=`${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;if(seconds<=0){clearInterval(timerHandle);submitTest()}},1000)}
+</script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "name":"Sarkari Scan - Government Exam Practice",
+  "short_name":"Sarkari Scan",
+  "start_url":".",
+  "display":"standalone",
+  "background_color":"#f4f7fb",
+  "theme_color":"#071b34",
+  "description":"Practice sets, previous year papers and CBT mock tests for government exams."
+}
